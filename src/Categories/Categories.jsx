@@ -2,22 +2,16 @@ import './Categories.scss';
 
 import React from 'react';
 
-function Categories() {
+function Categories({chooseCategories, activeCategories}) {
 
-  let [activeCategories, setActiveCategories] = React.useState(0);
   let allCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-
-
-  let chooseCategories = (i) => {
-    setActiveCategories(i);
-  }
 
   return (
     <>
-        <div>
+        <div className='category'>
             <ul className='categories'>
 
-              {allCategories.map((item, index) => <li onClick={() => chooseCategories(index)} className={activeCategories === index ? 'active' : ''}>{item}</li>)}
+              {allCategories.map((item, i) => <li key = {i} onClick={() => chooseCategories(i)} className={activeCategories === i ? 'active' : ''}>{item}</li>)}
 
             </ul>
         </div>

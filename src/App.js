@@ -1,24 +1,16 @@
 import './App.scss';
 
-
 import React from 'react';
+import {Routes, Route} from 'react-router-dom';
 
 import Header from './Header/Header';
-import Categories from './Categories/Categories';
-import Sort from './Sort/Sort';
-import Main from './Main/Main';
 import Busket from './Busket/Busket';
 import Empty from './Busket/Empty';
+import Home from './Main/Home';
+import NotFound from './NotFount/NotFound';
 
 
 function App() {
-
-  let [pizza, getPizza] = React.useState([]);
-
-  React.useEffect(() => {
-    fetch('https://636f3b22bb9cf402c8129fa2.mockapi.io/pizza').then(
-      (res) => {return res.json()}).then((json) => getPizza(json));
-  }, []);
 
   return (
     <div className="App">
@@ -26,13 +18,15 @@ function App() {
       <Header />
 
       <div className="container">
-        <div className="search_categories">
-          <Categories />
-          <Sort />
-        </div>
-        <Main pizza={pizza} />
-        {/* <Busket />
-        <Empty /> */}
+        <Routes>
+
+          <Route path='/' element={<Home />} />
+          <Route path='/busket' element={<Busket />} />
+          
+          {/* <Empty /> */}
+          <Route path='*' element={<NotFound />} />
+          
+        </Routes>
       </div>
 
     </div>

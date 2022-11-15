@@ -1,6 +1,19 @@
 import React from 'react'
 
 function Carditem({item}) {
+
+    let typesPizza = ["тонкое", "традиционное"];
+    
+    let [activeType, setActiveType] = React.useState(0);
+    let [activeSize, setActiveSize] =React.useState(0);
+
+    let chooseType = (i) => {
+        setActiveType(i);
+    }
+    let chooseSize = (i) => {
+        setActiveSize(i);
+    }
+
   return (
     <>
         <div className='item'>
@@ -8,13 +21,14 @@ function Carditem({item}) {
             <h2>{item.name}</h2>
             <div className="search_igredients">
                 <ul>
-                    <li className='active'>тонкое</li>
-                    <li>традиционное</li>
+                    
+                    {item.types.map((type, i) => <li onClick={() => chooseType(i)} className = {activeType === i ? "active" : ""} >{typesPizza[type]}</li>)}
+
                 </ul>
                 <ul>
-                    <li className='active'>26 см.</li>
-                    <li>30 см.</li>
-                    <li>40 см.</li>
+                   
+                    {item.sizes.map((size, i) => <li onClick={() => chooseSize(i)} className = {activeSize === i ? "active" : ""} >{size} см.</li>)}
+
                 </ul>
             </div>
             <div className="add">

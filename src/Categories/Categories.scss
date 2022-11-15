@@ -9,6 +9,7 @@
         padding: 14px 30px;
         border-radius: 30px;
         margin-right: 9px;
+        margin-top: 10px;
         background-color: rgba(249, 249, 249, 1);
         transition: 0.3s;
         cursor: pointer;
@@ -16,6 +17,13 @@
         &:hover {
             background-color: rgb(224, 224, 224);
         }
+    }
+}
+
+@media (max-width: 815px) {
+    .category {
+        width: 100%;
+        overflow: scroll;
     }
 }
 
