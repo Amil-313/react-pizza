@@ -12,15 +12,22 @@ import NotFound from './NotFount/NotFound';
 
 function App() {
 
+  let [search, setSearch] = React.useState('');
+
   return (
     <div className="App">
 
-      <Header />
+      <Header 
+      search={search}
+      setSearch={setSearch}
+       />
 
       <div className="container">
         <Routes>
 
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Home
+          search={search} 
+          />} />
           <Route path='/busket' element={<Busket />} />
           
           {/* <Empty /> */}

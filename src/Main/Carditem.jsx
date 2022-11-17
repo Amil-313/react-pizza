@@ -22,12 +22,12 @@ function Carditem({item}) {
             <div className="search_igredients">
                 <ul>
                     
-                    {item.types.map((type, i) => <li onClick={() => chooseType(i)} className = {activeType === i ? "active" : ""} >{typesPizza[type]}</li>)}
+                    {item.types.map((type, i) => <li onClick={() => chooseType(i)} key={i} className = {activeType === i ? "active" : ""} >{typesPizza[type]}</li>)}
 
                 </ul>
                 <ul>
                    
-                    {item.sizes.map((size, i) => <li onClick={() => chooseSize(i)} className = {activeSize === i ? "active" : ""} >{size} см.</li>)}
+                    {item.sizes.map((size, i) => <li onClick={() => chooseSize(i)} key={i} className = {activeSize === i ? "active" : ""} >{size} см.</li>)}
 
                 </ul>
             </div>
