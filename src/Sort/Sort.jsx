@@ -1,14 +1,28 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { setActiveSort } from '../Redux/Slices/filterSlice';
 
 import './Sort.scss';
 
- function Sort({clickPopap, chooseSort, activeSort, openPopap}) {
+export let popapList = [
+  {name: "популярности", sortProperty: 'rating'},
+  {name: "по цене", sortProperty: 'price'},
+  {name: "по алфавиту", sortProperty: 'name'} 
+];
 
-  let popapList = [
-    {name: "популярности", sortProperty: 'rating'},
-    {name: "по цене", sortProperty: 'price'},
-    {name: "по алфавиту", sortProperty: 'name'} 
-  ];
+ function Sort() {
+
+  let dispatch = useDispatch();
+  let activeSort = useSelector((state) => state.filterPizza.activeSort);
+
+  let [openPopap, setOpenPopap] = React.useState(false);
+  let clickPopap = () => {
+    setOpenPopap(!openPopap);
+  }
+  let chooseSort = (n) => {
+    dispatch(setActiveSort(n));
+    setOpenPopap(!openPopap);
+  }
 
   return (
     <>
