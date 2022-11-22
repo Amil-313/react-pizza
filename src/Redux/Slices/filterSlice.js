@@ -1,12 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { popapList } from '../../Sort/Sort';
 
 let initialState = {
     activeCategories: 0,
     page: 1,
-    activeSort: {
-        name: "популярности", 
-        sortProperty: 'rating'
-    }
+    activeSort: popapList[0]
 };
 
 let filterSlice = createSlice({

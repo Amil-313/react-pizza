@@ -9,7 +9,6 @@ export let popapList = [
   {name: "по цене", sortProperty: 'price'},
   {name: "по алфавиту", sortProperty: 'name'} 
 ];
-
  function Sort() {
 
   let dispatch = useDispatch();

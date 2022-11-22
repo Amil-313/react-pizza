@@ -15,7 +15,6 @@ function Home({search}) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   const updatePage = React.useRef(false);
-  const isMounted = React.useRef(false);
   let { activeCategories, activeSort, page } = useSelector((state) => state.filterPizza);
     
   let [pizza, getPizza] = React.useState([]);
@@ -25,47 +24,53 @@ function Home({search}) {
     dispatch(setActiveCategories(i));
   };
 
-  React.useEffect(() => {
-    if (window.location.search) {
-      const parameters = qs.parse(window.location.search.substring(1));
-      const sort = popapList.find((item) => item.sortProperty === parameters.sortProperty);
-      dispatch(setFilter({ 
-        ...parameters, sort, 
-      }));
-      updatePage.current = true;
-    }
-  }, []);
-
-  React.useEffect(() => {
+  const fetchRequest = async () => {
     setLoading(true);
-
-    if (updatePage.current === false) {
-    axios.get(`https://636f3b22bb9cf402c8129fa2.mockapi.io/pizza?` +
+    await axios.get(`https://636f3b22bb9cf402c8129fa2.mockapi.io/pizza?` +
     `search=${search}` +
     `&page=${page}` +
     `&limit=${4}`+ 
     `&${activeCategories > 0 ? `category=${activeCategories}` : ''}` +
     `&sortBy=${activeSort.sortProperty}&order=desc`)
-      .then((res) => getPizza(res.data));
-      setLoading(false);
-    }
-
-    updatePage.current = false
-
-  window.scrollTo(0, 0);
-}, [activeCategories, activeSort.sortProperty, search, page]);
+    .then((res) => getPizza(res.data));
+    setLoading(false);
+  };
+  const urlRequest = () => {
+    const parameters = qs.parse(window.location.search.substring(1));
+      const sort = popapList.find((item) => item.sortProperty === parameters.sortProperty);
+      dispatch(setFilter({ 
+        ...parameters, sort, 
+      }));
+  };
+  const urlSend = () => {
+    const queryString = qs.stringify({
+      category: activeCategories,
+      sortProperty: activeSort.sortProperty,
+      page,
+    });
+    navigate(`?${queryString}`)
+  };
 
   React.useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        category: activeCategories,
-        sortProperty: activeSort.sortProperty,
-        page,
-      });
-      navigate(`?${queryString}`)
+    if(window.location.search) {
+      window.location.search === '?category=0&sortProperty=rating&page=1' ?
+      fetchRequest() :
+      urlRequest();
+    } else {
+    fetchRequest();
     }
-    isMounted.current = true;
-  }, [activeCategories, activeSort, page])
+    updatePage.current = true;
+}, []);
+
+  React.useEffect(() => {
+     if (!updatePage.current) {
+      fetchRequest();
+      urlSend();
+      window.scrollTo(0, 0);
+  } else {
+    updatePage.current = false;
+  }
+  }, [activeCategories, activeSort.sortProperty, search, page]);
 
   return (
     <>
