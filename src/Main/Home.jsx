@@ -12,15 +12,15 @@ import { setActiveCategories, setFilter } from '../Redux/Slices/filterSlice';
 
 function Home({search}) {
 
-  let navigate = useNavigate();
-  let dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const updatePage = React.useRef(false);
-  let { activeCategories, activeSort, page } = useSelector((state) => state.filterPizza);
+  const { activeCategories, activeSort, page } = useSelector((state) => state.filterPizza);
     
-  let [pizza, getPizza] = React.useState([]);
-  let [loading, setLoading] = React.useState(true);
+  const [pizza, getPizza] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
-  let chooseCategories = (i) => {
+  const chooseCategories = (i) => {
     dispatch(setActiveCategories(i));
   };
 

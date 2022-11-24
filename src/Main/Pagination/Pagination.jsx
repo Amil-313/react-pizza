@@ -7,7 +7,7 @@ import { setPage } from '../../Redux/Slices/filterSlice';
 
 function Pagination() {
   
-  let dispatch = useDispatch(); 
+  const dispatch = useDispatch(); 
 
   return (
     <ReactPaginate

@@ -57,7 +57,13 @@
     align-items: center;
     padding: 30px 0;
     border-top: 1px solid rgba(244, 244, 244, 1);
-    ;
+
+    .pizza_adjust {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 350px;
+    }
 
     .add_name {
         display: flex;

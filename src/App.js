@@ -12,7 +12,7 @@ import NotFound from './NotFount/NotFound';
 
 function App() {
 
-  let [search, setSearch] = React.useState('');
+  const [search, setSearch] = React.useState('');
 
   return (
     <div className="App">

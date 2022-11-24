@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { popapList } from '../../Sort/Sort';
 
-let initialState = {
+const initialState = {
     activeCategories: 0,
     page: 1,
     activeSort: popapList[0]
 };
 
-let filterSlice = createSlice({
+const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
@@ -28,6 +28,6 @@ let filterSlice = createSlice({
     },
 });
 
-export let { setActiveCategories, setActiveSort, setPage, setFilter } = filterSlice.actions;
+export const { setActiveCategories, setActiveSort, setPage, setFilter } = filterSlice.actions;
 
 export default filterSlice.reducer;

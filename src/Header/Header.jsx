@@ -1,25 +1,28 @@
 import debounce from 'lodash.debounce';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import './Header.scss';
 
 function Header({setSearch}) {
 
-    let inputRef = React.useRef();
-    let [searchLokal, setSearchLokal] = React.useState('')
+    const inputRef = React.useRef();
+    const [searchLokal, setSearchLokal] = React.useState('');
+
+    const { totalPrice, busketPizza } = useSelector((state) => state.busketPizza);
 
 
-    let clearInput = () => {
+    const clearInput = () => {
         setSearchLokal('');
         setSearch('');
         inputRef.current.focus();
     }
 
-    let updateSearch = React.useCallback(debounce((value) => {
+    const updateSearch = React.useCallback(debounce((value) => {
         setSearch(value);}, 500), [])
 
-    let changeInput = (value) => {
+    const changeInput = (value) => {
         setSearchLokal(value);
         updateSearch(value);
     }
@@ -51,10 +54,10 @@ function Header({setSearch}) {
                         </div>
 
                         <Link className="busket" to='/busket'>
-                            <span>520 ₽</span>
+                            <span>{totalPrice} ₽</span>
                             <div>
                                 <img src={ require("../Image/busket.svg").default} alt="busket" />
-                                3
+                                {busketPizza.reduce((sum, pre) => { return sum + pre.count}, 0)}
                             </div>
                         </Link>
 

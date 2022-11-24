@@ -4,7 +4,7 @@ import React from 'react';
 
 function Categories({chooseCategories, activeCategories}) {
 
-  let allCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+  const allCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
   return (
     <>
