@@ -1,10 +1,15 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveSort } from '../Redux/Slices/filterSlice';
+import { selectFilter, setActiveSort } from '../Redux/Slices/filterSlice';
 
 import './Sort.scss';
 
-export const popapList = [
+export type SortType = {
+  name: string;
+  sortProperty: string;
+}
+
+export const popapList: SortType[] = [
   {name: "популярности", sortProperty: 'rating'},
   {name: "по цене", sortProperty: 'price'},
   {name: "по алфавиту", sortProperty: 'name'} 
@@ -13,19 +18,21 @@ export const popapList = [
  function Sort() {
 
   const dispatch = useDispatch();
-  const activeSort = useSelector((state) => state.filterPizza.activeSort);
+  const { activeSort } = useSelector(selectFilter);
 
   const [openPopap, setOpenPopap] = React.useState(false);
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const clickPopap = () => setOpenPopap(!openPopap);
-  const chooseSort = (n) => {
+  const chooseSort = (n: SortType) => {
     dispatch(setActiveSort(n));
     setOpenPopap(!openPopap);
   };
 
   React.useEffect(() => {
-    const closePopap = (event) => !event.path.includes(sortRef.current)&&setOpenPopap(false);
+    const closePopap = (event: MouseEvent ) =>{
+    const _event = event as MouseEvent & { path: Node[] };
+    sortRef.current && !_event.path.includes(sortRef.current)&&setOpenPopap(false);}
     document.body.addEventListener('click', closePopap);
     return () => document.body.removeEventListener('click', closePopap);
   }, []);

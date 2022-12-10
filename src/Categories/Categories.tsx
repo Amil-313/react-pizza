@@ -2,9 +2,15 @@ import './Categories.scss';
 
 import React from 'react';
 
-function Categories({chooseCategories, activeCategories}) {
+type CategoryPropsType = {
+  chooseCategories: (inx: number) => void;
+  activeCategories: number;
+}
+
+const Categories: React.FC <CategoryPropsType> = ({chooseCategories, activeCategories}) => {
 
   const allCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+
 
   return (
     <>

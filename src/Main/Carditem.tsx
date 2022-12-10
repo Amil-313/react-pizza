@@ -1,28 +1,43 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { addBusketPizza } from '../Redux/Slices/busketSlice';
+import { addBusketPizza, selectBusket } from '../Redux/Slices/busketSlice';
 
 
 export const typesPizza = ["тонкое", "традиционное"];
 
-function Carditem({item}) {
+type CardItemType = {
+    item: {   
+    parId: string;
+    img: string;
+    name: string;
+    types: number[];
+    sizes: number[];
+    price: number;
+    rating: number;
+    count: number;
+    type: number;
+    size: number;
+}}
+
+
+const Carditem: React.FC <CardItemType> = ({item}) => {
 
     const dispatch = useDispatch();
-    const { busketPizza } = useSelector((state) => state.busketPizza);
+    const { busketPizza } = useSelector(selectBusket);
 
-    const countInBusket = busketPizza.filter((busketItem) => busketItem.name === item.name).reduce((sum, pre) => {return sum + pre.count}, 0);
-    const inBusket = busketPizza.some((busketItem) => busketItem.name === item.name);
+    const countInBusket = busketPizza.filter((busketItem: any) => busketItem.name === item.name).reduce((sum :number, pre: any) => {return sum + pre.count}, 0);
+    const inBusket = busketPizza.some((busketItem: any) => busketItem.name === item.name);
     
     const [activeType, setActiveType] = React.useState(0);
     const [activeSize, setActiveSize] =React.useState(0);
-    const typeRef = React.useRef();
+    const typeRef = React.useRef<HTMLLIElement>(null);
 
     
 
-    const chooseType = (i) => {
+    const chooseType = (i: number) => {
         setActiveType(i);
     }
-    const chooseSize = (i) => {
+    const chooseSize = (i: number) => {
         setActiveSize(i);
     }
 

@@ -1,6 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { StateType } from "../store";
 
-const initialState = {
+type ItemBusketType = {  
+    parId: string;
+    img: string;
+    name: string;
+    types: number[];
+    sizes: number[];
+    price: number;
+    rating: number;
+    count: number;
+    type: number;
+    size: number;
+};
+
+interface BusketSliceType {
+    totalPrice: number
+    busketPizza: ItemBusketType[]
+};
+
+const initialState: BusketSliceType = {
     totalPrice: 0,
     busketPizza: []
 };
@@ -9,7 +28,7 @@ const busketSlice = createSlice({
     name: 'busket',
     initialState,
     reducers: {
-        addBusketPizza(state, action) {
+        addBusketPizza(state, action: PayloadAction <ItemBusketType>) {
             const findItem = state.busketPizza.find((item) => 
             (item.parId === action.payload.parId)&&
             (item.type === action.payload.type)&&
@@ -19,10 +38,8 @@ const busketSlice = createSlice({
             } else {
             state.busketPizza.push(action.payload); 
         };
-            state.totalPrice = state.busketPizza.reduce((sum, pre) => {
-            return sum + pre.price * pre.count }, 0)
         },
-        decreaseBusketPizza(state, action) {
+        decreaseBusketPizza(state, action: PayloadAction <ItemBusketType>) {
             const findItem = state.busketPizza.find((item) => 
             (item.parId === action.payload.parId)&&
             (item.type === action.payload.type)&&
@@ -32,10 +49,10 @@ const busketSlice = createSlice({
                 state.busketPizza = state.busketPizza.filter((item) => 
             (item !== findItem));
             } else {
-                findItem.count--
+                findItem && findItem.count--
             }
         },
-        removeBusketPizza(state, action) {
+        removeBusketPizza(state, action: PayloadAction <ItemBusketType>) {
             const findItem = state.busketPizza.find((item) => 
             (item.parId === action.payload.parId)&&
             (item.type === action.payload.type)&&
@@ -45,10 +62,16 @@ const busketSlice = createSlice({
         },
         clearBusketPizza(state) {
             state.busketPizza = []
+        },
+        setTotalPrice(state) {
+            state.totalPrice = state.busketPizza.reduce((sum, pre) => {
+                return sum + pre.price * pre.count }, 0)
         }
     },
 });
 
-export const { addBusketPizza, removeBusketPizza, clearBusketPizza, decreaseBusketPizza } = busketSlice.actions;
+export const selectBusket = (state: StateType) => state.busketPizza;
+
+export const { addBusketPizza, removeBusketPizza, clearBusketPizza, decreaseBusketPizza, setTotalPrice } = busketSlice.actions;
 
 export default busketSlice.reducer;

@@ -1,46 +1,53 @@
 import React from 'react';
-import axios from 'axios';
 import qs from 'qs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Categories from '../Categories/Categories';
 import Sort, { popapList } from '../Sort/Sort';
-import Main from '../Main/Main';
+import Main from './Main';
 import Pagination from './Pagination/Pagination';
-import { setActiveCategories, setFilter } from '../Redux/Slices/filterSlice';
+import { ArgumentsFilterType, selectFilter, setActiveCategories, setFilter } from '../Redux/Slices/filterSlice';
+import { fetchPizza } from '../Redux/Slices/pizzaSlice';
+import { useDispatchApp } from '../Redux/store';
 
-function Home({search}) {
+type HomeType = {
+  search: string
+}
+
+const Home: React.FC <HomeType> = ({search}) => {
+
+  const updatePage = React.useRef(false);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const updatePage = React.useRef(false);
-  const { activeCategories, activeSort, page } = useSelector((state) => state.filterPizza);
+  const dispatch = useDispatchApp();
+  const { activeCategories, activeSort, page } = useSelector(selectFilter);
     
-  const [pizza, getPizza] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
 
-  const chooseCategories = (i) => {
+  const chooseCategories = (i: number) => {
     dispatch(setActiveCategories(i));
   };
 
   const fetchRequest = async () => {
-    setLoading(true);
-    await axios.get(`https://636f3b22bb9cf402c8129fa2.mockapi.io/pizza?` +
-    `search=${search}` +
-    `&page=${page}` +
-    `&limit=${4}`+ 
-    `&${activeCategories > 0 ? `category=${activeCategories}` : ''}` +
-    `&sortBy=${activeSort.sortProperty}&order=desc`)
-    .then((res) => getPizza(res.data));
-    setLoading(false);
+    try {
+      dispatch(
+        fetchPizza({
+        search,
+        page,
+        activeCategories,
+        activeSort
+      }));
+    } catch (error) {
+      console.log(error);
+      alert('Произошла ошибка при загрузке пицц :(')
+    }
   };
   const urlRequest = () => {
     const parameters = qs.parse(window.location.search.substring(1));
       const sort = popapList.find((item) => item.sortProperty === parameters.sortProperty);
-      dispatch(setFilter({ 
-        ...parameters, sort, 
-      }));
+      const argumentsFilter = { ...parameters, sort } as ArgumentsFilterType;
+      sort &&
+      dispatch(setFilter(argumentsFilter));
   };
   const urlSend = () => {
     const queryString = qs.stringify({
@@ -50,7 +57,7 @@ function Home({search}) {
     });
     navigate(`?${queryString}`)
   };
-
+  
   React.useEffect(() => {
     if(window.location.search) {
       window.location.search === '?category=0&sortProperty=rating&page=1' ?
@@ -62,14 +69,15 @@ function Home({search}) {
     updatePage.current = true;
 }, []);
 
+
   React.useEffect(() => {
      if (!updatePage.current) {
       fetchRequest();
       urlSend();
-      window.scrollTo(0, 0);
   } else {
     updatePage.current = false;
   }
+  window.scrollTo(0, 0);
   }, [activeCategories, activeSort.sortProperty, search, page]);
 
   return (
@@ -82,10 +90,7 @@ function Home({search}) {
            />
           <Sort />
         </div>
-        <Main 
-        loading = {loading}
-        pizza={pizza}
-         />
+        <Main />
 
          <Pagination />
 

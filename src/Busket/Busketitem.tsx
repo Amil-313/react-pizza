@@ -1,10 +1,24 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { typesPizza } from '../Main/Carditem';
 import { addBusketPizza, removeBusketPizza, decreaseBusketPizza } from '../Redux/Slices/busketSlice';
 
-function Busketitem({item}) {
+type BusketItemType = {
+    item: {   
+    parId: string;
+    img: string;
+    name: string;
+    types: number[];
+    sizes: number[];
+    price: number;
+    rating: number;
+    count: number;
+    type: number;
+    size: number;
+}}
+
+const Busketitem: React.FC <BusketItemType> = ({item}) => {
     
 
     const dispatch = useDispatch();

@@ -8,11 +8,14 @@ import Busket from './Busket/Busket';
 import Empty from './Busket/Empty';
 import Home from './Main/Home';
 import NotFound from './NotFount/NotFound';
+import { useSelector } from 'react-redux';
 
 
 function App() {
 
   const [search, setSearch] = React.useState('');
+
+  const { busketPizza } = useSelector((state: any) => state.busketPizza);
 
   return (
     <div className="App">
@@ -27,9 +30,8 @@ function App() {
           <Route path='/' element={<Home
           search={search} 
           />} />
-          <Route path='/busket' element={<Busket />} />
+          <Route path='/busket' element={busketPizza.length > 0 ? <Busket /> : <Empty />} />
           
-          {/* <Empty /> */}
           <Route path='*' element={<NotFound />} />
           
         </Routes>

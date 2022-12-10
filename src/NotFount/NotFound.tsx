@@ -1,7 +1,7 @@
 import React from 'react'
 import notFound from './NotFound.module.scss';
 
-function NotFound() {
+const NotFound: React.FC = () => {
   return (
     <>
         <div className={notFound.head}>
