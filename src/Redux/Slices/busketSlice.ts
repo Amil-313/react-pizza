@@ -19,9 +19,11 @@ interface BusketSliceType {
     busketPizza: ItemBusketType[]
 };
 
+const data = localStorage.getItem('busket');
+
 const initialState: BusketSliceType = {
     totalPrice: 0,
-    busketPizza: []
+    busketPizza: data ? JSON.parse(data) : []
 };
 
 const busketSlice = createSlice({

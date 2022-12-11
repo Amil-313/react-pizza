@@ -176,6 +176,14 @@
         opacity: 0.3;
         display: flex;
         align-items: center;
+        padding: 18px 36px;
+        border-radius: 30px;
+        cursor: pointer;
+        background-color: transparent;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        transition: 0.3s;
 
         svg {
             margin-right: 10px;
@@ -243,5 +251,53 @@
             background-color: #fff;
             color: rgba(40, 40, 40, 1);
         }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .busket_btn {
+        flex-direction: column-reverse;
+        margin: 15px auto;
+    }
+
+    .busket_head {
+        margin: 0;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .busket_clear {
+            margin-top: 15px;
+        }
+    }
+
+    .add_pizza {
+        flex-direction: column;
+
+        .pizza_adjust {
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+    }
+
+    .add_sum {
+        flex-direction: column;
+
+        p {
+            margin: 5px 0;
+        }
+    }
+
+    .busket_main {
+        padding: 15px 0;
+    }
+
+    .busket_btn_back {
+        width: 250px;
+        margin: 5px auto;
+    }
+
+    .busket_btn_pay {
+        width: 250px;
+        margin: 5px auto;
     }
 }

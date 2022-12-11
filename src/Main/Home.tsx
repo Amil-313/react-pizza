@@ -23,7 +23,6 @@ const Home: React.FC <HomeType> = ({search}) => {
   const dispatch = useDispatchApp();
   const { activeCategories, activeSort, page } = useSelector(selectFilter);
     
-
   const chooseCategories = (i: number) => {
     dispatch(setActiveCategories(i));
   };
@@ -69,7 +68,6 @@ const Home: React.FC <HomeType> = ({search}) => {
     updatePage.current = true;
 }, []);
 
-
   React.useEffect(() => {
      if (!updatePage.current) {
       fetchRequest();
@@ -82,18 +80,15 @@ const Home: React.FC <HomeType> = ({search}) => {
 
   return (
     <>
-    
-    <div className="search_categories">
-          <Categories
-          chooseCategories={chooseCategories}
-          activeCategories={activeCategories}
-           />
-          <Sort />
-        </div>
-        <Main />
-
-         <Pagination />
-
+      <div className="search_categories">
+            <Categories
+              chooseCategories={chooseCategories}
+              activeCategories={activeCategories}
+            />
+            <Sort />
+      </div>
+          <Main />
+          <Pagination />
     </>
   )
 }
